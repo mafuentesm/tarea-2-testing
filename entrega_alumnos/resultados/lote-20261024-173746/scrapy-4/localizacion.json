@@ -1,0 +1,9 @@
+{
+  "regiones": [
+    {
+      "archivo": "scrapy/contracts/__init__.py",
+      "inicio": 71,
+      "fin": 91
+    }
+  ]
+}

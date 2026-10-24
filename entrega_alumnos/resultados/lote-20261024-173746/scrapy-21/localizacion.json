@@ -1,0 +1,9 @@
+{
+  "regiones": [
+    {
+      "archivo": "scrapy/downloadermiddlewares/robotstxt.py",
+      "inicio": 48,
+      "fin": 73
+    }
+  ]
+}

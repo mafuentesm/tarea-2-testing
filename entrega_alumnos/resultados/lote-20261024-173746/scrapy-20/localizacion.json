@@ -1,0 +1,9 @@
+{
+  "regiones": [
+    {
+      "archivo": "scrapy/utils/sitemap.py",
+      "inicio": 37,
+      "fin": 43
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "regiones": [
+    {
+      "archivo": "scrapy/selector/unified.py",
+      "inicio": 48,
+      "fin": 67
+    }
+  ]
+}

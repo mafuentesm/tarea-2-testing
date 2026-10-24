@@ -1,0 +1,9 @@
+{
+  "regiones": [
+    {
+      "archivo": "fastapi/exception_handlers.py",
+      "inicio": 18,
+      "fin": 23
+    }
+  ]
+}

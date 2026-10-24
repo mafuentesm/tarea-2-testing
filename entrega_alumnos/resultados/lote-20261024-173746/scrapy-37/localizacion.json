@@ -1,0 +1,9 @@
+{
+  "regiones": [
+    {
+      "archivo": "scrapy/http/request/__init__.py",
+      "inicio": 62,
+      "fin": 70
+    }
+  ]
+}

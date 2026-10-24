@@ -1,0 +1,9 @@
+{
+  "regiones": [
+    {
+      "archivo": "scrapy/utils/python.py",
+      "inicio": 97,
+      "fin": 107
+    }
+  ]
+}
