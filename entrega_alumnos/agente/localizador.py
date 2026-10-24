@@ -275,15 +275,24 @@ def _simbolo_por_nombre(simbolos: list[Simbolo], nombre: str) -> Simbolo | None:
 
 
 def region_propuesta(propuesta: dict, repo: Path, fuentes: set[str]) -> dict | None:
-    """Convierte una región del modelo en una válida: el símbolo manda; si no existe, se usan sus líneas."""
+    """Convierte una región del modelo en una válida: si cae en un símbolo, expande a la función completa."""
     archivo = propuesta.get("archivo")
     if archivo not in fuentes:
         return None
-    simbolo = _simbolo_por_nombre(simbolos_del_archivo(repo / archivo), str(propuesta.get("simbolo") or ""))
+    
+    simbolos = simbolos_del_archivo(repo / archivo)
+    simbolo = _simbolo_por_nombre(simbolos, str(propuesta.get("simbolo") or ""))
+    
+    # Si el modelo no dio símbolo exacto, buscar si el inicio cae dentro de alguna función
+    inicio_prop = propuesta.get("inicio")
+    if not simbolo and isinstance(inicio_prop, int):
+        simbolo = simbolo_mas_interno(simbolos, inicio_prop)
+
     if simbolo:
         return region(archivo, simbolo.inicio, simbolo.fin)
-    inicio, fin = propuesta.get("inicio"), propuesta.get("fin")
-    return region(archivo, inicio, fin) if _lineas_validas(inicio, fin, len(leer_lineas(repo / archivo))) else None
+
+    fin_prop = propuesta.get("fin")
+    return region(archivo, inicio_prop, fin_prop) if _lineas_validas(inicio_prop, fin_prop, len(leer_lineas(repo / archivo))) else None
 
 
 def regiones_de_respuesta(respuesta: dict, repo: Path, fuentes: set[str]) -> list[dict]:

@@ -4,6 +4,7 @@ Lo usan el localizador y el reparador; cada etapa lleva su propio Consumo y lo d
 para que main.py sume el coste total en metricas.json.
 """
 import json
+import re
 import time
 from dataclasses import asdict, dataclass
 from functools import cache
@@ -65,4 +66,14 @@ def pedir_json(prompt: str, consumo: Consumo) -> dict:
     )
     respuesta = _generar_con_reintentos(prompt, config)
     consumo.registrar(respuesta)
-    return json.loads(respuesta.text)
+
+    texto = respuesta.text or ""
+    coincidencia = re.search(r"```(?:json)?\s*(.*?)\s*```", texto, re.DOTALL)
+    texto_limpio = coincidencia.group(1) if coincidencia else texto.strip()
+    texto_limpio = re.sub(r'\\(?!["\\/bfnrt]|u[0-9a-fA-F]{4})', r'\\\\', texto_limpio)
+
+    try:
+        return json.loads(texto_limpio)
+    except json.JSONDecodeError:
+        texto_limpio = re.sub(r'[\x00-\x1f\x7f-\x9f]', '', texto_limpio)
+        return json.loads(texto_limpio)
